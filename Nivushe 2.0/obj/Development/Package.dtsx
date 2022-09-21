@@ -1,0 +1,1315 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/28/2022 5:30:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="FCT225404"
+  DTS:CreatorName="TIGO\rodrick.kayombo"
+  DTS:DTSID="{29798A53-4D87-479B-9842-DC9A16D0CCE8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="8192"
+  DTS:ObjectName="Home Pack"
+  DTS:PackageType="5"
+  DTS:VersionBuild="29"
+  DTS:VersionGUID="{FC1500CF-036E-4392-852B-668B28682A98}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connToMFSAnalysis]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+      DTS:ObjectName="connToMFSAnalysis">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=10.222.150.224;Initial Catalog=MFSAnalysis;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8021F664-9CA0-47D3-9568-C1F2E84FB37E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="LEFT( @[User::runDate]  ,7 )"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="eventMonth">
+      <DTS:VariableValue
+        DTS:DataType="8">2022-08</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{99E2ABE2-4ACB-46EB-9EC9-99E32C75748D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_STR, 4, 1252) DATEPART(&quot;yy&quot; , DATEADD(&quot;d&quot;, -DAY(GETDATE()), GETDATE()))  + &quot;-&quot; + &#xA;RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;mm&quot; ,DATEADD(&quot;d&quot;, -DAY(GETDATE()), GETDATE())), 2)  + &#xA;&quot;-&quot; + RIGHT(&quot;0&quot; + (DT_STR, 2, 1252) DATEPART(&quot;dd&quot; , DATEADD(&quot;d&quot;, -DAY(GETDATE()), GETDATE())), 2)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="runDate">
+      <DTS:VariableValue
+        DTS:DataType="8">2022-08-31</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\ALL OTHERS"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{F6EAAFDC-F08D-47A7-AC4D-9366BCBFA3A2}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ALL OTHERS">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\ALL OTHERS\Customer Charges using TP (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Customer Charges using TP (6Mo)"
+          DTS:DTSID="{29E8C1AB-E557-43FE-9716-6F6970D2E075}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Customer Charges using TP (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_MM_Charges]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ALL OTHERS\Customer USSD Language"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{45148EEF-4DED-4BB5-96A7-DA32680526C3}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Customer USSD Language"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_USSD_Language]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ALL OTHERS\Customers Devices"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collect Customers Devices"
+          DTS:DTSID="{FABF2285-1ED0-4160-B55F-96820DBA426C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Customers Devices"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Devices] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ALL OTHERS\GSM Loans (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collecting GSM Loans 6Mo"
+          DTS:DTSID="{97AE328D-F94C-48D7-A256-FCB4983B61BD}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="GSM Loans (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_GSM_Loans] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ALL OTHERS\TP Txs Hourly (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="TP Txs Hourly (6Mo)"
+          DTS:DTSID="{A932955D-9B45-4229-9233-8B4AC3BAB3E1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="TP Txs Hourly (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_TP_Txs_Hourly] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Extract Base (6Mo)"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{31AF64AB-DC05-4F9A-A32A-D131F3A7B52A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Extract Base (6Mo)"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+          SQLTask:SqlStatementSource="exec [MFSAnalysis].[dbo].[p_CS_Active_Base] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::runDate"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Prep ETL Log"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Prep ETL Log"
+      DTS:DTSID="{0EC7EFAE-DE24-40F7-B21E-51B567BE942B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Prep ETL Log"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+          SQLTask:SqlStatementSource="insert into MFSAnalysis.dbo.Nivushe_ETLlog(Event_Month)&#xA;values( ? )" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::eventMonth"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SC1 KYC Details"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{69844BA3-3589-4E38-AEB5-22CE92D90691}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SC1 KYC Details">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SC1 KYC Details\Age and Gender Data"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Age and Gender Data"
+          DTS:DTSID="{61C38E7F-17E1-4FFC-A53E-CBA5BFA969BB}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Age and Gender Data"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Personal_Info] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC1 KYC Details\Residence"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BFACB540-934C-4B16-B353-3E33509A8254}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Residence"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Residence]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC1 KYC Details\Residence Type"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{FBAE1AFE-C8DE-426A-BF80-0FD5C792EE90}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Residence Type"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Residence_Type]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SC2 Customer AON and 6Mo Acitivities"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{3C416A09-AA85-4D35-821D-5671E2A6E80E}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SC2 Customer AON and 6Mo Acitivities">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SC2 Customer AON and 6Mo Acitivities\Age on Net and MFS"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{3e287c58-dfa4-4105-a056-2d675affbc75}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Age on Net and MFS"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [MFSAnalysis].[dbo].[p_CS_Age_On_Network] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC2 Customer AON and 6Mo Acitivities\Stage Transactions (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collect 6Mo transactions"
+          DTS:DTSID="{2336B2EE-6D7F-4D35-8B8E-BEB4E4AAEBE5}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Stage Transactions (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [MFSAnalysis].[dbo].[p_CS_All_Base_Txs] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SC3 CASHIN AND RECEIVING"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{042C537D-18F5-443F-B7B9-A521EC20BE95}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SC3 CASHIN AND RECEIVING">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SC3 CASHIN AND RECEIVING\Cashin Activities (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{8FBFE7CB-BA17-4213-BA10-706D064CA2C3}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cashin Activities (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Cashin]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC3 CASHIN AND RECEIVING\IMT Receiving Activities 6Mo"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collecting IMT Receiving Activities 6Mo"
+          DTS:DTSID="{27DB8E88-CA85-48BC-BCD1-83AC4487104A}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="IMT Receiving Activities 6Mo"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_IMT_Recvr]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC3 CASHIN AND RECEIVING\Receiving from Bank (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collecting Customers B2W Activities 6Mo"
+          DTS:DTSID="{8D14F451-DD01-4AFD-8770-E48F0051B3BC}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Receiving from Bank (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_B2W]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC3 CASHIN AND RECEIVING\Receiving from On-Net Subs (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Receiving from On-Net Subs"
+          DTS:DTSID="{730DC352-5471-4B8E-8199-8DF664824A61}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Receiving from On-Net Subs (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_P2P_IO_Send]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC3 CASHIN AND RECEIVING\Receiving from X-Nets (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5DAF603D-8393-4FF1-9F1E-04E143CEA089}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Receiving from X-Nets (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_P2P_IO_Recvr]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC3 CASHIN AND RECEIVING\ValueIN agg data (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="ValueIN agg data (6Mo)"
+          DTS:DTSID="{2FCE7CE9-A95D-498D-BE8C-7677AF2CBF08}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="ValueIN agg data (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Value_IN]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SC4 CASHOUT AND SENDING"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{578F8856-ACB8-4746-8178-EEBA35B90751}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SC4 CASHOUT AND SENDING">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SC4 CASHOUT AND SENDING\Cashout Activities (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collecting Customers Cashout Activities (6Mo)"
+          DTS:DTSID="{A16EC962-6C69-4AF8-85E1-09B16CAC8D63}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cashout Activities (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Cashout]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC4 CASHOUT AND SENDING\IMT Sending Activities (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collecting IMT Sending Activities (6Mo)"
+          DTS:DTSID="{F06AC369-AE26-4B2C-B1BC-6D52FB2F2230}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="IMT Sending Activities (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_IMT_send]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC4 CASHOUT AND SENDING\Sending to Bank (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Sending to Bank (6Mo)"
+          DTS:DTSID="{0FFE0C2E-CD1D-4BC4-830F-D90B7882D89A}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Sending to Bank (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_W2B]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC4 CASHOUT AND SENDING\Sending to On-Net Subs (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Sending to On-Net Subs (6Mo)"
+          DTS:DTSID="{C96568AF-0EA4-4C74-8DB9-C56501B294FC}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Sending to On-Net Subs (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_P2P_Send]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC4 CASHOUT AND SENDING\Sending to X-Net Subs (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{9E180E83-952B-4520-AD8C-1A60B30D76EA}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Sending to X-Net Subs (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_P2P_IO_Send]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC4 CASHOUT AND SENDING\ValueOUT agg data (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="ValueOUT agg data (6Mo)"
+          DTS:DTSID="{7266A0EB-E3D4-4CCD-8CA1-62A261D5F9CD}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="ValueOUT agg data (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Value_OUT]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SC5 SPENDING AND PAYMENTS"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{55D7678C-32DD-4CCB-B94B-05CE4045ABC5}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SC5 SPENDING AND PAYMENTS">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SC5 SPENDING AND PAYMENTS\Billpay Activities (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Collecting Customers Billpay Activities (6Mo)"
+          DTS:DTSID="{13B35C41-FBF9-4186-A529-684ECDDBDED2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Billpay Activities (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Billpay]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC5 SPENDING AND PAYMENTS\LKS Payments (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{63EA444F-98F5-42F9-957A-3170F7CCB942}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="LKS Payments (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_LKS]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC5 SPENDING AND PAYMENTS\Payments to Merchant X-Net (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{8C6AA151-23EA-4D86-9FF5-F77616D03F33}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Payments to Merchant X-Net (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Merch_IO_Send]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC5 SPENDING AND PAYMENTS\Reloads info data (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Reloads info data (6Mo)"
+          DTS:DTSID="{0BA33902-4D16-46BD-BC3D-573E4AFCF0B5}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Reloads info data (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Reloads]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC5 SPENDING AND PAYMENTS\STU info data (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="STU info data (6Mo)"
+          DTS:DTSID="{8F2940BC-DED8-4052-8A57-9EA9CA1C43DD}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="STU info data (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec STU info data (6Mo)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SC5 SPENDING AND PAYMENTS\Utilities Services (6Mo)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Utilities Services (6Mo)"
+          DTS:DTSID="{5771BF30-364E-4F6A-AD5B-9CC4950E59E1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Utilities Services (6Mo)"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+              SQLTask:SqlStatementSource="exec [dbo].[p_CS_Utilities] ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::runDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update End Time"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{53c9abc5-550e-4cfd-8d17-1083b0b3a75b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update End Time"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+          SQLTask:SqlStatementSource="update table MFSAnalysis.dbo.Nivushe_ETLlog&#xA;set EndTime=getdate() where Event_Month=?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Start Time"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1E89DB4A-80CA-4FE7-8B24-F68A70D5251C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Start Time"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{503A73E3-2730-4489-B264-C3E4CECE2314}"
+          SQLTask:SqlStatementSource="update MFSAnalysis.dbo.Nivushe_ETLlog&#xA;set StartTime=getdate() where Event_Month=?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::eventMonth"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{34EAC17C-9228-4CF2-8F93-7CAF4643DDD4}"
+      DTS:From="Package\Extract Base (6Mo)"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SC1 KYC Details" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{80139FF6-B547-4829-A50D-908AC06F4B66}"
+      DTS:From="Package\Update Start Time"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Extract Base (6Mo)" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{33AA52CC-12DC-4997-A13F-794766F55922}"
+      DTS:From="Package\SC2 Customer AON and 6Mo Acitivities"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SC3 CASHIN AND RECEIVING" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{CE1A2F0E-6CE6-469B-9C6E-4C6C0E5EEA5B}"
+      DTS:From="Package\SC1 KYC Details"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\SC2 Customer AON and 6Mo Acitivities" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{F03AE18E-89BD-4980-A1A6-E22ACDF0C6AB}"
+      DTS:From="Package\SC3 CASHIN AND RECEIVING"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\SC4 CASHOUT AND SENDING" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{D13AD6EC-FE2C-482D-88AA-55456AEE2EF7}"
+      DTS:From="Package\SC4 CASHOUT AND SENDING"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\SC5 SPENDING AND PAYMENTS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{EB6857F6-E317-4C09-8798-03ADD0A3B6D8}"
+      DTS:From="Package\SC5 SPENDING AND PAYMENTS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\ALL OTHERS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{F9FEDEB9-4995-471E-92F2-7B7A00F02939}"
+      DTS:From="Package\Prep ETL Log"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Update Start Time" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{96174A02-6DED-44F4-9F7A-8DE320808E61}"
+      DTS:From="Package\ALL OTHERS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\Update End Time" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="244,42.6666666666667"
+          Id="Package\ALL OTHERS\Customer Charges using TP (6Mo)"
+          TopLeft="6.12499999068677,12.3157945993539" />
+        <NodeLayout
+          Size="209.333333333334,42.6666666666667"
+          Id="Package\ALL OTHERS\Customer USSD Language"
+          TopLeft="33.1666509831951,244.91228675468" />
+        <NodeLayout
+          Size="172,42.6666666666667"
+          Id="Package\ALL OTHERS\Customers Devices"
+          TopLeft="44.7083106928822,66.7719357744587" />
+        <NodeLayout
+          Size="166.666666666667,42.6666666666667"
+          Id="Package\ALL OTHERS\GSM Loans (6Mo)"
+          TopLeft="46.4583161504338,122.631585283623" />
+        <NodeLayout
+          Size="177.333333333334,42.6666666666667"
+          Id="Package\ALL OTHERS\TP Txs Hourly (6Mo)"
+          TopLeft="43.0416463358954,180.807021072587" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="282.666666666667,339.333333333334"
+          Size="282.666666666667,382"
+          Id="Package\ALL OTHERS"
+          TopLeft="1382.16664807746,234.035089213212" />
+        <NodeLayout
+          Size="170.666666666667,42.6666666666667"
+          Id="Package\Extract Base (6Mo)"
+          TopLeft="159.999997615814,184.736845582476" />
+        <NodeLayout
+          Size="142.666666666667,42.6666666666667"
+          Id="Package\Prep ETL Log"
+          TopLeft="60.4687490989455,30.661184817469" />
+        <NodeLayout
+          Size="182.666666666667,42.6666666666667"
+          Id="Package\SC1 KYC Details\Age and Gender Data"
+          TopLeft="76.2499985657632,5.9122845524457" />
+        <NodeLayout
+          Size="130.666666666667,42.6666666666667"
+          Id="Package\SC1 KYC Details\Residence"
+          TopLeft="99.9999982118607,62.7017593055771" />
+        <NodeLayout
+          Size="157.333333333334,42.6666666666667"
+          Id="Package\SC1 KYC Details\Residence Type"
+          TopLeft="81.2499984912574,122.228076215486" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="345.333333333334,220"
+          Size="345.333333333334,262.666666666667"
+          Id="Package\SC1 KYC Details"
+          TopLeft="9.99999985098819,257.473688228639" />
+        <NodeLayout
+          Size="182.666666666667,42"
+          Id="Package\SC2 Customer AON and 6Mo Acitivities\Age on Net and MFS"
+          TopLeft="43.3333290119968,27.0877132453195" />
+        <NodeLayout
+          Size="214.666666666667,48"
+          Id="Package\SC2 Customer AON and 6Mo Acitivities\Stage Transactions (6Mo)"
+          TopLeft="31.124995334074,93.0526347985888" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="False"
+          PanelSize="313.333333333334,206.666666666667"
+          Size="313.333333333334,42.6666666666667"
+          Id="Package\SC2 Customer AON and 6Mo Acitivities"
+          TopLeft="16.5833352518578,553.508782335706" />
+        <NodeLayout
+          Size="189.333333333334,42.6666666666667"
+          Id="Package\SC3 CASHIN AND RECEIVING\Cashin Activities (6Mo)"
+          TopLeft="35.2083239176629,16.4385982813488" />
+        <NodeLayout
+          Size="216,44"
+          Id="Package\SC3 CASHIN AND RECEIVING\IMT Receiving Activities 6Mo"
+          TopLeft="22.4166618424159,122.807017157503" />
+        <NodeLayout
+          Size="208,42.6666666666667"
+          Id="Package\SC3 CASHIN AND RECEIVING\Receiving from Bank (6Mo)"
+          TopLeft="42.0833238152173,178.596496070411" />
+        <NodeLayout
+          Size="245.333333333334,42.6666666666667"
+          Id="Package\SC3 CASHIN AND RECEIVING\Receiving from On-Net Subs (6Mo)"
+          TopLeft="13.0416619821139,235.228075970793" />
+        <NodeLayout
+          Size="217.333333333334,42.6666666666667"
+          Id="Package\SC3 CASHIN AND RECEIVING\Receiving from X-Nets (6Mo)"
+          TopLeft="18.6666618982951,68.9649149465649" />
+        <NodeLayout
+          Size="192,42.6666666666667"
+          Id="Package\SC3 CASHIN AND RECEIVING\ValueIN agg data (6Mo)"
+          TopLeft="40.0833267954487,298.754393370088" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="False"
+          PanelSize="282,394.666666666667"
+          Size="282,42.6666666666667"
+          Id="Package\SC3 CASHIN AND RECEIVING"
+          TopLeft="397.874999227003,207.31579337589" />
+        <NodeLayout
+          Size="194.666666666667,42.6666666666667"
+          Id="Package\SC4 CASHOUT AND SENDING\Cashout Activities (6Mo)"
+          TopLeft="47.2916527992745,12.9649173934924" />
+        <NodeLayout
+          Size="216,42.6666666666667"
+          Id="Package\SC4 CASHOUT AND SENDING\IMT Sending Activities (6Mo)"
+          TopLeft="40.1249906402084,69.6842161671281" />
+        <NodeLayout
+          Size="201.333333333334,42.6666666666667"
+          Id="Package\SC4 CASHOUT AND SENDING\Sending to Bank (6Mo)"
+          TopLeft="45.1666575397054,243.894745084387" />
+        <NodeLayout
+          Size="225.333333333334,42.6666666666667"
+          Id="Package\SC4 CASHOUT AND SENDING\Sending to On-Net Subs (6Mo)"
+          TopLeft="32.6249892618513,185.561410038205" />
+        <NodeLayout
+          Size="218.666666666667,42.6666666666667"
+          Id="Package\SC4 CASHOUT AND SENDING\Sending to X-Net Subs (6Mo)"
+          TopLeft="38.8749906588343,126.385972047006" />
+        <NodeLayout
+          Size="204,42.6666666666667"
+          Id="Package\SC4 CASHOUT AND SENDING\ValueOUT agg data (6Mo)"
+          TopLeft="47.9999891221528,310.350886259493" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="False"
+          PanelSize="302.666666666667,411.333333333334"
+          Size="302.666666666667,42.6666666666667"
+          Id="Package\SC4 CASHOUT AND SENDING"
+          TopLeft="709.749990407378,478.561410772283" />
+        <NodeLayout
+          Size="186.666666666667,42.6666666666667"
+          Id="Package\SC5 SPENDING AND PAYMENTS\Billpay Activities (6Mo)"
+          TopLeft="56.458313617235,77.7017585714989" />
+        <NodeLayout
+          Size="181.333333333334,42.6666666666667"
+          Id="Package\SC5 SPENDING AND PAYMENTS\LKS Payments (6Mo)"
+          TopLeft="58.6666514674821,14.5614063678136" />
+        <NodeLayout
+          Size="246.666666666667,42"
+          Id="Package\SC5 SPENDING AND PAYMENTS\Payments to Merchant X-Net (6Mo)"
+          TopLeft="25.5416674210394,147.982461510713" />
+        <NodeLayout
+          Size="193.333333333334,42.6666666666667"
+          Id="Package\SC5 SPENDING AND PAYMENTS\Reloads info data (6Mo)"
+          TopLeft="47.5833178920056,214.982462244791" />
+        <NodeLayout
+          Size="176,42.6666666666667"
+          Id="Package\SC5 SPENDING AND PAYMENTS\STU info data (6Mo)"
+          TopLeft="58.9583173052723,288.263164449927" />
+        <NodeLayout
+          Size="189.333333333334,42.6666666666667"
+          Id="Package\SC5 SPENDING AND PAYMENTS\Utilities Services (6Mo)"
+          TopLeft="53.8333227162557,366.561411261669" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="False"
+          PanelSize="314,470.666666666667"
+          Size="314,42.6666666666667"
+          Id="Package\SC5 SPENDING AND PAYMENTS"
+          TopLeft="1021.87498477288,185.807020827894" />
+        <NodeLayout
+          Size="164,42.6666666666667"
+          Id="Package\Update End Time"
+          TopLeft="1445.99998956919,664.052637979595" />
+        <NodeLayout
+          Size="166.666666666667,42.6666666666667"
+          Id="Package\Update Start Time"
+          TopLeft="54.9999991804363,123.157897054984" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="245.333330949147,227.403512249143">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-62.6666644314925,30.0701759794963"
+              Start="0,0"
+              End="-62.6666644314925,22.5701759794963">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.0350879897481" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.0350879897481"
+                    Point2="0,15.0350879897481"
+                    Point3="-4,15.0350879897481" />
+                  <mssgle:LineSegment
+                    End="-58.6666644314925,15.0350879897481" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-58.6666644314925,15.0350879897481"
+                    Point2="-62.6666644314925,15.0350879897481"
+                    Point3="-62.6666644314925,19.0350879897481" />
+                  <mssgle:LineSegment
+                    End="-62.6666644314925,22.5701759794963" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="221.666665847103,144.491230388317">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="23.6666651020444,40.2456151941587"
+              Start="0,0"
+              End="23.6666651020444,32.7456151941587">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="19.6666651020444,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="19.6666651020444,0"
+                    Point2="23.6666651020444,0"
+                    Point3="23.6666651020444,4" />
+                  <mssgle:LineSegment
+                    End="23.6666651020444,32.7456151941587" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="224.138890807413,553.508782335706">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="269.069441752923,-303.526322293149"
+              Start="0,0"
+              End="269.069441752923,-296.026322293149">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-147.656958794478" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-147.656958794478"
+                    Point2="0,-151.656958794478"
+                    Point3="4,-151.656958794478" />
+                  <mssgle:LineSegment
+                    End="265.069441752923,-151.656958794478" />
+                  <mssgle:CubicBezierSegment
+                    Point1="265.069441752923,-151.656958794478"
+                    Point2="269.069441752923,-151.656958794478"
+                    Point3="269.069441752923,-155.656958794478" />
+                  <mssgle:LineSegment
+                    End="269.069441752923,-296.026322293149" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="182.666666517655,520.140354895306">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-60.3055534880193,33.3684274404004"
+              Start="0,0"
+              End="-60.3055534880193,25.8684274404004">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.9193406820341" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.9193406820341"
+                    Point2="0,19.9193406820341"
+                    Point3="-4,19.9193406820341" />
+                  <mssgle:LineSegment
+                    End="-56.3055534880193,19.9193406820341" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-56.3055534880193,19.9193406820341"
+                    Point2="-60.3055534880193,19.9193406820341"
+                    Point3="-60.3055534880193,23.9193406820341" />
+                  <mssgle:LineSegment
+                    End="-60.3055534880193,25.8684274404004" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="584.54166589367,249.982460042557">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="227.43054673593,228.578950729726"
+              Start="0,0"
+              End="227.43054673593,221.078950729726">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,110.344074211179" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,110.344074211179"
+                    Point2="0,114.344074211179"
+                    Point3="4,114.344074211179" />
+                  <mssgle:LineSegment
+                    End="223.43054673593,114.344074211179" />
+                  <mssgle:CubicBezierSegment
+                    Point1="223.43054673593,114.344074211179"
+                    Point2="227.43054673593,114.344074211179"
+                    Point3="227.43054673593,118.344074211179" />
+                  <mssgle:LineSegment
+                    End="227.43054673593,221.078950729726" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="910.194434851822,478.561410772283">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="268.680549921054,-250.087723277722"
+              Start="0,0"
+              End="268.680549921054,-242.587723277722">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-96.8241478595549" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-96.8241478595549"
+                    Point2="0,-100.824147859555"
+                    Point3="4,-100.824147859555" />
+                  <mssgle:LineSegment
+                    End="264.680549921054,-100.824147859555" />
+                  <mssgle:CubicBezierSegment
+                    Point1="264.680549921054,-100.824147859555"
+                    Point2="268.680549921054,-100.824147859555"
+                    Point3="268.680549921054,-104.824147859555" />
+                  <mssgle:LineSegment
+                    End="268.680549921054,-242.587723277722" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="1335.87498477288,207.140354161227">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="46.29166330458,217.894735051985"
+              Start="0,0"
+              End="38.79166330458,217.894735051985">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="19.14583165229,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="19.14583165229,0"
+                    Point2="23.14583165229,0"
+                    Point3="23.14583165229,4" />
+                  <mssgle:LineSegment
+                    End="23.14583165229,213.894735051985" />
+                  <mssgle:CubicBezierSegment
+                    Point1="23.14583165229,213.894735051985"
+                    Point2="23.14583165229,217.894735051985"
+                    Point3="27.14583165229,217.894735051985" />
+                  <mssgle:LineSegment
+                    End="38.79166330458,217.894735051985" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="135.067707473024,73.3278514841357">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49.8300455708483"
+              Start="0,0"
+              End="0,42.3300455708483">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.3300455708483" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="1525.74998548999,616.035089213212">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.017548766383"
+              Start="0,0"
+              End="0,40.517548766383">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.517548766383" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

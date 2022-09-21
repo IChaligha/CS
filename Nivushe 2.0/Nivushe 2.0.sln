@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.2092
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Nivushe 2.0", "Nivushe 2.0.dtproj", "{FA9AF9BD-2BD1-4667-9C58-9BB95AC482BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA9AF9BD-2BD1-4667-9C58-9BB95AC482BF}.Development|Default.ActiveCfg = Development
+		{FA9AF9BD-2BD1-4667-9C58-9BB95AC482BF}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4D8E898-5B97-4E46-86A3-8A6160981DC0}
+	EndGlobalSection
+EndGlobal
